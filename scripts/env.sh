@@ -74,7 +74,7 @@ GENESIS_BLOCK_FILE=/$DATA/genesis.block
 CHANNEL_TX_FILE=/$DATA/channel.tx
 
 # Name of test channel
-CHANNEL_NAME=mychannel
+CHANNEL_NAME=common
 
 # Query timeout in seconds
 QUERY_TIMEOUT=15
@@ -102,7 +102,7 @@ RUN_FAIL_FILE=${LOGDIR}/run.fail
 
 # Affiliation is not used to limit users in this sample, so just put
 # all identities in the same affiliation.
-export FABRIC_CA_CLIENT_ID_AFFILIATION=org1
+export FABRIC_CA_CLIENT_ID_AFFILIATION=mainnet
 
 # Set to true to enable use of intermediate CAs
 USE_INTERMEDIATE_CA=true
