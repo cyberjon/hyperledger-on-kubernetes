@@ -47,8 +47,8 @@ contained in env.sh, which you edited in the previous step. On the EC2 bastion i
 ```bash
 cd
 cd hyperledger-on-kubernetes
-mkdir /opt/share/rca-scripts
-cp scripts/* /opt/share/rca-scripts
+sudo mkdir -p /opt/share/rca-scripts
+sudo cp scripts/* /opt/share/rca-scripts
 ```
 
 then, in the home directory:
@@ -65,7 +65,7 @@ On the EC2 bastion instance, in the home directory:
 ```bash
 cd
 cd hyperledger-on-kubernetes/fabric-main
-./start-fabric.sh
+sudo ./start-fabric.sh
 ```
 
 This script can be run multiple times. For example, if there is an error with one of the steps in the script, you can
