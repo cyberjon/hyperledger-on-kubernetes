@@ -92,9 +92,6 @@ Parameters:
     Default: 0.0.0.0/0
     AllowedPattern: "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})/(\\d{1,2})"
     ConstraintDescription: must be a valid IP CIDR range of the form x.x.x.x/x.
-  SubnetAPublic:
-    Description: public subnet to create the EFS mount target
-    Type: String
   SubnetA:
     Description: subnet to create the EFS mount target
     Type: String
@@ -364,61 +361,47 @@ Resources:
             "/home/ec2-user/post_nfsstat":
               content: !Sub |
                 #!/bin/bash
-
                 INPUT="$(cat)"
                 CW_JSON_OPEN='{ "Namespace": "EFS", "MetricData": [ '
                 CW_JSON_CLOSE=' ] }'
                 CW_JSON_METRIC=''
                 METRIC_COUNTER=0
-
                 for COL in 1 2 3 4 5 6; do
-
                  COUNTER=0
                  METRIC_FIELD=$COL
                  DATA_FIELD=$(($COL+($COL-1)))
-
                  while read line; do
                    if [[ COUNTER -gt 0 ]]; then
-
                      LINE=`echo $line | tr -s ' ' `
                      AWS_COMMAND="aws cloudwatch put-metric-data --region ${AWS::Region}"
                      MOD=$(( $COUNTER % 2))
-
                      if [ $MOD -eq 1 ]; then
                        METRIC_NAME=`echo $LINE | cut -d ' ' -f $METRIC_FIELD`
                      else
                        METRIC_VALUE=`echo $LINE | cut -d ' ' -f $DATA_FIELD`
                      fi
-
                      if [[ -n "$METRIC_NAME" && -n "$METRIC_VALUE" ]]; then
                        INSTANCE_ID=$(curl -s http://169.254.169.254/latest/meta-data/instance-id)
                        CW_JSON_METRIC="$CW_JSON_METRIC { \"MetricName\": \"$METRIC_NAME\", \"Dimensions\": [{\"Name\": \"InstanceId\", \"Value\": \"$INSTANCE_ID\"} ], \"Value\": $METRIC_VALUE },"
                        unset METRIC_NAME
                        unset METRIC_VALUE
-
                        METRIC_COUNTER=$((METRIC_COUNTER+1))
                        if [ $METRIC_COUNTER -eq 20 ]; then
                          # 20 is max metric collection size, so we have to submit here
                          aws cloudwatch put-metric-data --region ${AWS::Region} --cli-input-json "`echo $CW_JSON_OPEN ${!CW_JSON_METRIC%?} $CW_JSON_CLOSE`"
-
                          # reset
                          METRIC_COUNTER=0
                          CW_JSON_METRIC=''
                        fi
                      fi
-
-
-
                      COUNTER=$((COUNTER+1))
                    fi
-
                    if [[ "$line" == "Client nfs v4:" ]]; then
                      # the next line is the good stuff
                      COUNTER=$((COUNTER+1))
                    fi
                  done <<< "$INPUT"
                 done
-
                 # submit whatever is left
                 aws cloudwatch put-metric-data --region ${AWS::Region} --cli-input-json "`echo $CW_JSON_OPEN ${!CW_JSON_METRIC%?} $CW_JSON_CLOSE`"
               mode: '000755'
@@ -487,7 +470,9 @@ Resources:
         Count: '1'
     Properties:
       VPCZoneIdentifier:
-      - Ref: SubnetAPublic
+      - Ref: SubnetA
+      - Ref: SubnetB
+      - Ref: SubnetC
       LaunchConfigurationName:
         Ref: LaunchConfiguration
       MinSize: '1'
