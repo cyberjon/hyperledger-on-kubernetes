@@ -92,6 +92,9 @@ Parameters:
     Default: 0.0.0.0/0
     AllowedPattern: "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})/(\\d{1,2})"
     ConstraintDescription: must be a valid IP CIDR range of the form x.x.x.x/x.
+  SubnetAPublic:
+    Description: public subnet to create the EFS mount target
+    Type: String
   SubnetA:
     Description: subnet to create the EFS mount target
     Type: String
@@ -484,9 +487,7 @@ Resources:
         Count: '1'
     Properties:
       VPCZoneIdentifier:
-      - Ref: SubnetA
-      - Ref: SubnetB
-      - Ref: SubnetC
+      - Ref: SubnetAPublic
       LaunchConfigurationName:
         Ref: LaunchConfiguration
       MinSize: '1'
