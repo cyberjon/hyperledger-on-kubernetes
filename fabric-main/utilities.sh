@@ -77,8 +77,8 @@ function createNamespaces {
     local REPO=$2
     log "Creating K8s namespaces"
     cd $HOME
-    for DOMAIN in $DOMAINS; do
-        kubectl apply -f $REPO/k8s/fabric-namespace-$DOMAIN.yaml
+    for ORG in $ORGS; do
+        kubectl apply -f $REPO/k8s/fabric-namespace-$ORG.yaml
     done
 }
 
