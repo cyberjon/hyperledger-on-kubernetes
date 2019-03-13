@@ -23,8 +23,8 @@ FABRIC_NETWORK_TYPE="PROD"
 
 # Names of the Orderer organizations. Regardless of the FABRIC_NETWORK_TYPE there will be a single
 # Orderer org. You may change the names of the ORG and DOMAIN to match your organisation
-ORDERER_ORGS="mainnet"
-ORDERER_DOMAINS="mainnet"
+ORDERER_ORGS="dorderer"
+ORDERER_DOMAINS="dorderer"
 
 # ORDERER_TYPE can be "kafka" or "solo". If you set this to Kafka, a Kafka/Zookeeper cluster will be created in
 # the same AWS account as the orderer. Otherwise, you may choose 'solo'
