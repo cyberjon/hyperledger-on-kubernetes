@@ -15,7 +15,7 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-region=us-east-1
+region=eu-west-3
 privateNodegroup=true # set to true if you want eksctl to create the EKS worker nodes in private subnets
 
 echo Download the kubectl and heptio-authenticator-aws binaries and save to ~/bin
