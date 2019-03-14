@@ -16,12 +16,12 @@
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #vpc details for cluster: fabric-account-1
-region={REGION}
-vpcid={VPCID}
-subneta={SUBNETA}
-subnetb={SUBNETB}
-subnetc={SUBNETC}
-keypairname=eks-c9-keypair
+region=eu-west-3
+vpcid=vpc-0ce29dfbfd4b125f7
+subneta=subnet-0e29dfb910459a85c
+subnetb=subnet-0d89e29f84cfab104
+subnetc=subnet-0b3a98c10a3b163db
+keypairname=datachain
 volumename=dltefs
 mountpoint=opt/share
 
